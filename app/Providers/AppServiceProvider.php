@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Src\Adapter\CLI\Commands\GenerateSwagger;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -11,7 +12,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Register CLI Commands
+        $this->commands([
+            GenerateSwagger::class,
+        ]);
     }
 
     /**

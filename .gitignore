@@ -25,3 +25,6 @@ yarn-error.log
 # docker volumes
 news_aggregator_mysql
 news_aggregator_redis
+
+# Swagger docs
+/docs
