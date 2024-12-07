@@ -21,3 +21,7 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+
+# docker volumes
+news_aggregator_mysql
+news_aggregator_redis
