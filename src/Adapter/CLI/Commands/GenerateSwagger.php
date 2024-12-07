@@ -31,8 +31,8 @@ class GenerateSwagger extends Command
         $this->info("Generating Swagger documentation...");
 
         $openapi = Generator::scan([
-            base_path("app/Adapters/Http/Controllers"),
-            base_path("app/Application"),
+            base_path("app/Http/Controllers"),
+            base_path("src/Adapter/Http"),
         ]);
 
         header("Content-Type: application/x-yaml");
