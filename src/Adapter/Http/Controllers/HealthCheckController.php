@@ -10,11 +10,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class HealthCheckController extends Controller
 {
-    private HealthServiceInterface $healthCheckUseCase;
+    private HealthServiceInterface $healthService;
 
-    public function __construct(HealthServiceInterface $healthCheckUseCase)
+    public function __construct(HealthServiceInterface $healthService)
     {
-        $this->healthCheckUseCase = $healthCheckUseCase;
+        $this->healthService = $healthService;
     }
 
     #[OA\Get(
@@ -49,7 +49,7 @@ class HealthCheckController extends Controller
     )]
     public function check(): JsonResponse
     {
-        $message = $this->healthCheckUseCase->getHealthStatus();
+        $message = $this->healthService->getHealthStatus();
 
         return response()->json([
             "message" => $message,
