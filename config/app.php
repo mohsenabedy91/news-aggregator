@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return [
 
     'locale' => env('APP_LOCALE', 'en'),
 
-    'available_locales' => ['en', 'de', 'tr'],
+    'available_locales' => ['ar', 'de', 'en', 'fr', 'tr'],
 
     'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
 
@@ -103,7 +103,7 @@ return [
 
     'previous_keys' => [
         ...array_filter(
-            explode(',', env('APP_PREVIOUS_KEYS', ''))
+            explode(',', env('APP_PREVIOUS_KEYS', '')),
         ),
     ],
 
