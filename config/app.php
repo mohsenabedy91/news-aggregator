@@ -125,4 +125,5 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'attempts_per_minute_limit' => env('ATTEMPTS_PER_MINUTE_LIMIT', 10),
 ];
