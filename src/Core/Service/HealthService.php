@@ -9,6 +9,6 @@ class HealthService implements HealthServiceInterface
 {
     public function getHealthStatus(): string
     {
-        return Lang::get('messages.health_check');
+        return Lang::get("messages.i_am_working");
     }
 }

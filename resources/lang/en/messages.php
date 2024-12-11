@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'health_check' => "I'm working",
+    'i_am_working' => "I'm working!",
+    'registered_user' => "The User was successfully registered.",
 ];
