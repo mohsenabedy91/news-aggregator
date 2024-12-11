@@ -14,5 +14,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->append(SetLocale::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->dontFlash([
+            'password',
+            'password_confirmation',
+        ]);
     })->create();
