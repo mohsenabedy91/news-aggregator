@@ -6,7 +6,7 @@ services:
             context: .
             dockerfile: Dockerfile
         container_name: news_aggregator_app
-        restart: always
+        restart: unless-stopped
         working_dir: /var/www/html
         volumes:
             - .:/var/www/html
@@ -19,7 +19,7 @@ services:
     webserver:
         image: nginx:latest
         container_name: news_aggregator_webserver
-        restart: always
+        restart: unless-stopped
         ports:
             - "${WEB_SERVER_FORWARD_PORT:-8000}:80"
         volumes:
@@ -33,7 +33,7 @@ services:
     mysql:
         image: mysql:8.0
         container_name: news_aggregator_db
-        restart: always
+        restart: unless-stopped
         ports:
             - "${DB_FORWARD_PORT:-3306}:3306"
         environment:
@@ -53,7 +53,7 @@ services:
     redis:
         image: redis:7.2.4
         container_name: news_aggregator_redis
-        restart: always
+        restart: unless-stopped
         ports:
             - "${REDIS_FORWARD_PORT:-6379}:6379"
         volumes:
@@ -68,7 +68,7 @@ services:
     swagger:
         image: swaggerapi/swagger-ui
         container_name: news_aggregator_swagger_ui
-        restart: always
+        restart: unless-stopped
         ports:
             - "${SWAGGER_FORWARD_PORT:-8080}:8080"
         volumes:
