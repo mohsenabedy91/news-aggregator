@@ -14,6 +14,7 @@ RUN apk add --no-cache \
     g++ \
     make \
     linux-headers \
+    supervisor \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) pdo_mysql gd zip bcmath \
     && pecl install redis \
@@ -37,6 +38,8 @@ RUN chown -R www-data:www-data /var/www/html \
 
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+COPY ./docker/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
 EXPOSE 9000
 
-CMD ["php-fpm"]
+CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
