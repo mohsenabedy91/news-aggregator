@@ -127,6 +127,12 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
+        'sendgrid' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/sendgrid.log'),
+            'level' => 'debug',
+            'days' => env('LOG_DAILY_DAYS', 14),
+        ],
     ],
 
 ];
