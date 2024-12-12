@@ -36,8 +36,8 @@ return [
     */
 
     'guards' => [
-        'web' => [
-            'driver' => 'session',
+        'api' => [
+            'driver' => 'sanctum',
             'provider' => 'users',
         ],
     ],
@@ -62,7 +62,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', \Src\Adapter\Storage\Postgres\User::class),
+            'model' => env('AUTH_MODEL', \Src\Adapter\Storage\MySql\UserRepository\User::class),
         ],
 
         // 'users' => [
