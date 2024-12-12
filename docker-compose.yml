@@ -13,8 +13,12 @@ services:
             - ./vendor:/var/www/html/vendor
             - ./node_modules:/var/www/html/node_modules
             - ./docker/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+            - ./docker/supervisor:/etc/supervisor/conf.d
         networks:
             - news_aggregator
+        depends_on:
+            - mysql
+            - redis
 
     webserver:
         image: nginx:latest
