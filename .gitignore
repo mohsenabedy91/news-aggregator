@@ -28,3 +28,6 @@ news_aggregator_redis
 
 # Swagger docs
 /docs
+
+supervisord.log
+supervisord.pid
