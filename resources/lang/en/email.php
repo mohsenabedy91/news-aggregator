@@ -1,20 +1,30 @@
 <?php
 
 return [
-    "otp_email" => [
+    "otp" => [
         "subject" => "Your One-Time Password (OTP) for :service_name",
-        "body" => <<<EOT
-                <p>Greetings from :service_name</p>
+        "title" => ":service_name - OTP Verification",
+        "header" => <<<EOT
+                <h1>Welcome to :service_name!</h1>
+                <p>Your trusted service for secure transactions</p>
+                EOT,
+        "content" => <<<EOT
                 <p>Dear :user_name,</p>
-                <p>Your One-Time Password (OTP) is: <b style='font-size:20px;'>:token</b></p>
+                <p>Your One-Time Password (OTP) is: <span class="otp">:otp</span></p>
                 <p>Please enter this code to complete your request.</p>
+                <p>Best wishes,<br>:service_name Team</p>
                 EOT,
+        "footer" => ":service_name Team. All rights reserved.",
     ],
-    "welcome_email" => [
+    "welcome" => [
         "subject" => "Welcome to :service_name!",
-        "body" => <<<EOT
-                <p>Hello :user_name, Welcome to :service_name. </p>
-                <p>We're glad to have you on board.</p>
+        "title" => "Welcome to :service_name",
+        "header" => "Welcome to :service_name!",
+        "content" => <<<EOT
+                <p>Thank you for joining :service_name. We're thrilled to have you with us.</p>
+                <p>If you have any questions or need assistance, feel free to reach out.</p>
+                <p>Best regards,<br>:service_name Team</p>
                 EOT,
+        "footer" => ":service_name Team. All rights reserved.",
     ],
 ];

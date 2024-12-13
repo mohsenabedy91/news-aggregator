@@ -1,20 +1,30 @@
 <?php
 
 return [
-    "otp_email" => [
-        "subject" => ":service_name için Tek Seferlik Şifreniz (OTP)",
-        "body" => <<<EOT
-                <p>:service_name'den selamlar</p>
+    "otp" => [
+        "subject" => ":service_name için Tek Kullanımlık Şifreniz (OTP)",
+        "title" => ":service_name - OTP Doğrulaması",
+        "header" => <<<EOT
+                <h1>:service_name'ye Hoş Geldiniz!</h1>
+                <p>Güvenli işlemler için güvenilir hizmetiniz</p>
+                EOT,
+        "content" => <<<EOT
                 <p>Sayın :user_name,</p>
-                <p>Tek Seferlik Şifreniz (OTP): <b style='font-size:20px;'>:token</b></p>
-                <p>Talebinizi tamamlamak için lütfen bu kodu girin.</p>
+                <p>Tek kullanımlık şifreniz (OTP) şudur: <span class="otp">:otp</span></p>
+                <p>Lütfen bu kodu isteğinizi tamamlamak için giriniz.</p>
+                <p>İyi dileklerimizle,<br>:service_name Ekibi</p>
                 EOT,
+        "footer" => ":service_name Ekibi. Tüm hakları saklıdır.",
     ],
-    "welcome_email" => [
-        "subject" => ":service_name'a Hoş Geldiniz!",
-        "body" => <<<EOT
-                <p>Merhaba :user_name, :service_name'a hoş geldiniz.</p>
-                <p>Aramızda olduğunuz için mutluyuz.</p>
+    "welcome" => [
+        "subject" => ":service_name'ye Hoş Geldiniz!",
+        "title" => ":service_name'ye Hoş Geldiniz",
+        "header" => ":service_name'ye Hoş Geldiniz!",
+        "content" => <<<EOT
+                <p>:service_name'ye katıldığınız için teşekkür ederiz. Sizi aramızda görmekten mutluluk duyuyoruz.</p>
+                <p>Herhangi bir sorunuz olursa veya yardıma ihtiyacınız olursa, bizimle iletişime geçmekten çekinmeyin.</p>
+                <p>Saygılarımızla,<br>:service_name Ekibi</p>
                 EOT,
+        "footer" => ":service_name Ekibi. Tüm hakları saklıdır.",
     ],
 ];

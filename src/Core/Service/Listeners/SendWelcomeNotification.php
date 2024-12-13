@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\View;
 use Psr\Log\LoggerInterface;
 use SendGrid;
 use SendGrid\Mail\Mail;
@@ -24,7 +25,7 @@ class SendWelcomeNotification implements ShouldQueue
 
     public function __construct()
     {
-        $this->logger = Log::channel("sendgrid");
+        $this->logger = Log::channel(channel: "sendgrid");
     }
 
     /**
@@ -33,31 +34,47 @@ class SendWelcomeNotification implements ShouldQueue
     public function handle(UserRegistered $event): void
     {
         try {
-            $email = new Mail();
-            $email->setFrom(config("mail.from.address"), config("mail.from.name"));
-            $email->setSubject(
-                Lang::get(
-                    key: "email.welcome_email.subject",
-                    replace: [
-                        "service_name" => Lang::get(key: "attributes.news_aggregator", locale: $event->lang),
-                    ],
+            $serviceName = Lang::get(key: "attributes.news_aggregator", locale: $event->lang);
+            $data = [
+                "lang" => $event->lang,
+                "title" => Lang::get(
+                    key: "email.welcome.title",
+                    replace: ["service_name" => $serviceName],
                     locale: $event->lang,
                 ),
-            );
-            $email->addTo($event->email);
-            $email->addContent("text/html",
-                Lang::get(
-                    key: "email.welcome_email.body",
-                    replace: [
-                        "user_name" => $event->userName,
-                        "service_name" => Lang::get(key: "attributes.news_aggregator", locale: $event->lang),
-                    ],
+                "header" => Lang::get(
+                    key: "email.welcome.header",
+                    replace: ["service_name" => $serviceName],
                     locale: $event->lang,
                 ),
-            );
+                "content" => Lang::get(
+                    key: "email.welcome.content",
+                    replace: ["service_name" => $serviceName],
+                    locale: $event->lang,
+                ),
+                "footer" => Lang::get(
+                    key: "email.welcome.footer",
+                    replace: ["service_name" => $serviceName],
+                    locale: $event->lang,
+                ),
+            ];
 
-            $sendgrid = new SendGrid(config("notification.sendgrid.key"));
-            $response = $sendgrid->send($email);
+            $htmlContent = View::make(view: "emails.welcome", data: $data)->render();
+
+            $email = new Mail();
+            $email->setFrom(config(key: "mail.from.address"), config(key: "mail.from.name"));
+            $email->setSubject(
+                subject: Lang::get(
+                    key: "email.welcome.subject",
+                    replace: ["service_name" => $serviceName],
+                    locale: $event->lang,
+                ),
+            );
+            $email->addTo(to: $event->email);
+            $email->addContent(type: "text/html", value: $htmlContent);
+
+            $sendgrid = new SendGrid(apiKey: config(key: "notification.sendgrid.key"));
+            $response = $sendgrid->send(email: $email);
 
             if (
                 $response->statusCode() >= Response::HTTP_OK &&
@@ -66,9 +83,9 @@ class SendWelcomeNotification implements ShouldQueue
                 $this->logger->info("Welcome notification sent successfully to $event->email.");
             } else {
                 $this->logger->error(
-                    "Failed to send welcome notification to $event->email. Response: " . json_encode($response->body()),
+                    "Failed to send welcome notification to $event->email. Response: " . json_encode(value: $response->body()),
                 );
-                throw new Exception("SendGrid error: " . json_encode($response->body()));
+                throw new Exception("SendGrid error: " . json_encode(value: $response->body()));
             }
         } catch (TypeException $e) {
             $this->logger->error("TypeException occurred while sending welcome notification: {$e->getMessage()}");

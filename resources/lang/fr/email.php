@@ -1,20 +1,30 @@
 <?php
 
 return [
-    "otp_email" => [
+    "otp" => [
         "subject" => "Votre mot de passe à usage unique (OTP) pour :service_name",
-        "body" => <<<EOT
-                <p>Salutations de :service_name</p>
-                <p>Cher/Chère :user_name,</p>
-                <p>Votre mot de passe à usage unique (OTP) est : <b style='font-size:20px;'>:token</b></p>
+        "title" => ":service_name - Vérification OTP",
+        "header" => <<<EOT
+                <h1>Bienvenue sur :service_name !</h1>
+                <p>Votre service de confiance pour des transactions sécurisées</p>
+                EOT,
+        "content" => <<<EOT
+                <p>Cher(e) :user_name,</p>
+                <p>Votre mot de passe à usage unique (OTP) est : <span class="otp">:otp</span></p>
                 <p>Veuillez entrer ce code pour compléter votre demande.</p>
+                <p>Cordialement,<br>L'équipe :service_name</p>
                 EOT,
+        "footer" => "L'équipe :service_name. Tous droits réservés.",
     ],
-    "welcome_email" => [
-        "subject" => "Bienvenue chez :service_name!",
-        "body" => <<<EOT
-                <p>Bonjour :user_name, bienvenue chez :service_name.</p>
-                <p>Nous sommes ravis de vous accueillir parmi nous.</p>
+    "welcome" => [
+        "subject" => "Bienvenue sur :service_name !",
+        "title" => "Bienvenue sur :service_name",
+        "header" => "Bienvenue sur :service_name !",
+        "content" => <<<EOT
+                <p>Merci de rejoindre :service_name. Nous sommes ravis de vous avoir parmi nous.</p>
+                <p>Si vous avez des questions ou avez besoin d'aide, n'hésitez pas à nous contacter.</p>
+                <p>Cordialement,<br>L'équipe :service_name</p>
                 EOT,
+        "footer" => "L'équipe :service_name. Tous droits réservés.",
     ],
 ];
