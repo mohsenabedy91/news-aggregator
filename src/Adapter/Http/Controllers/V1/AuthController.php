@@ -46,7 +46,7 @@ class AuthController extends Controller
         ],
         responses: [
             new OA\Response(
-                response: Response::HTTP_OK,
+                response: Response::HTTP_CREATED,
                 description: "success",
                 content: new OA\JsonContent(
                     properties: [
@@ -99,9 +99,12 @@ class AuthController extends Controller
 
         UserRegistered::dispatch($registeredUser->getEmail(), $otp, $registeredUser->getFullName(), App::getLocale());
 
-        return response()->json(data: [
-            "message" => Lang::get(key: "messages.registered_user"),
-        ]);
+        return response()->json(
+            data: [
+                "message" => Lang::get(key: "messages.registered_user"),
+            ],
+            status: Response::HTTP_CREATED,
+        );
     }
 
     #[OA\Post(
