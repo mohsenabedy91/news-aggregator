@@ -2,6 +2,7 @@
 
 namespace Src\Adapter\Storage\Redis\AuthRepository;
 
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;

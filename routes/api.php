@@ -10,6 +10,7 @@ Route::group(["prefix" => "/{locale}"], function () {
 
         Route::group(["prefix" => "/auth"], function () {
             Route::post("/register", [AuthController::class, "register"])->name("v1.auth.register");
+            Route::post("/verify-email", [AuthController::class, "verifyEmail"])->name("v1.auth.verifyEmail");
         });
     });
 });

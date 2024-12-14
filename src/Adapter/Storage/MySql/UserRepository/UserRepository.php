@@ -21,4 +21,18 @@ class UserRepository implements UserRepositoryInterface
 
         return $user;
     }
+
+    public function getByEmail(string $email): ?User
+    {
+        return User::query()
+            ->where(column: "email", operator: "=", value: $email)
+            ->first();
+    }
+
+    public function updateEmailVerified(int $Id): void
+    {
+        User::query()
+            ->where(column: "id", operator: "=", value: $Id)
+            ->update(values: ["email_verified_at" => now()]);
+    }
 }

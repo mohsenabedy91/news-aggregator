@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Lang;
 use OpenApi\Attributes as OA;
 use Src\Adapter\Http\Requests\V1\RegisterRequest;
+use Src\Adapter\Http\Requests\V1\VerifyRequest;
+use Src\Adapter\Http\Transformers\V1\LoginResource;
 use Src\Core\Domain\Events\UserRegistered;
 use Src\Core\Domain\UserEntity;
 use Src\Core\Port\V1\AuthServiceInterface;
@@ -100,5 +102,72 @@ class AuthController extends Controller
         return response()->json(data: [
             "message" => Lang::get(key: "messages.registered_user"),
         ]);
+    }
+
+    #[OA\Post(
+        path: "/api/{language}/v1/auth/verify-email",
+        operationId: "post_api_language_v1_auth_verify_email",
+        summary: "It verify your email address, after registration you should verify your email address, if you've verified successfully you'll be able to login.",
+        requestBody: new OA\RequestBody(
+            content: new OA\JsonContent(
+                type: VerifyRequest::class,
+            ),
+        ),
+        tags: ["Authentication"],
+        parameters: [
+            new OA\Parameter(
+                name: "language",
+                in: "path",
+                required: true,
+                schema: new OA\Schema(type: "string"),
+                example: "en",
+            ),
+        ],
+        responses: [
+            new OA\Response(
+                response: Response::HTTP_OK,
+                description: "success",
+                content: new OA\JsonContent(
+                    type: LoginResource::class,
+                ),
+            ),
+            new OA\Response(
+                response: Response::HTTP_UNPROCESSABLE_ENTITY,
+                description: "error",
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            property: "errors",
+                            properties: [
+                                new OA\Property(
+                                    property: "email",
+                                    type: "array",
+                                    items: new OA\Items(
+                                        type: "string",
+                                        example: "The email field must be a valid email address.",
+                                    ),
+                                ),
+                                new OA\Property(
+                                    property: "token",
+                                    type: "array",
+                                    items: new OA\Items(
+                                        type: "string",
+                                        example: "The token field must be a number.",
+                                    ),
+                                ),
+                            ],
+                            type: "object",
+                        ),
+                    ],
+                ),
+            ),
+        ]
+    )]
+    public function verifyEmail(VerifyRequest $request): JsonResponse
+    {
+        $req = $request->validated();
+        $accessToken = $this->authService->verifyEmail(email: $req["email"], token: $req["token"]);
+
+        return (new LoginResource(resource: $accessToken))->response();
     }
 }
