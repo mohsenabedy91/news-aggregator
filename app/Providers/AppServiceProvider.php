@@ -15,17 +15,24 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         // Register CLI Commands
-        $this->commands([
-            GenerateSwagger::class,
-        ]);
+        $this->commands(
+            commands: [
+                GenerateSwagger::class,
+            ],
+        );
     }
 
     public function boot(): void
     {
         Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
 
-        RateLimiter::for("api", function (Request $request) {
-            return Limit::perMinute(config("app.attempts_per_minute_limit"))->by($request->user()?->id ?: $request->ip());
+        Sanctum::usePersonalAccessTokenModel(model: PersonalAccessToken::class);
+
+        RateLimiter::for(name: "api", callback: function (Request $request) {
+            return Limit::perMinute(
+                maxAttempts: config(key: "app.attempts_per_minute_limit"),
+                decayMinutes: config(key: "app.decay_per_minute_limit"),
+            )->by(key: $request->user()?->id ?: $request->ip());
         });
     }
 }

@@ -126,4 +126,5 @@ return [
     ],
 
     'attempts_per_minute_limit' => env('ATTEMPTS_PER_MINUTE_LIMIT', 10),
+    'decay_per_minute_limit' => env('DECAY_PER_MINUTE_LIMIT', 10),
 ];
