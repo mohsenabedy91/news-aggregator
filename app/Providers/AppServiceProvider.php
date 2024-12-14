@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Exceptions\CustomException;
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
@@ -24,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
+        $this->app->bind(abstract: ExceptionHandler::class, concrete: CustomException::class);
 
         Sanctum::usePersonalAccessTokenModel(model: PersonalAccessToken::class);
 
