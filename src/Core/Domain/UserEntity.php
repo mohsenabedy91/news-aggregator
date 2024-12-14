@@ -9,7 +9,7 @@ class UserEntity
         public string  $firstName,
         public string  $lastName,
         public string  $email,
-        public string  $password,
+        public ?string $password = null,
         public ?string $accessToken,
     )
     {

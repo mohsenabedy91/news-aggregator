@@ -3,6 +3,7 @@
 namespace Src\Adapter\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Lang;
 use OpenApi\Attributes as OA;
@@ -87,17 +88,17 @@ class AuthController extends Controller
             ),
         ]
     )]
-    public function register(RegisterRequest $request)
+    public function register(RegisterRequest $request): JsonResponse
     {
-        $userRequest = UserEntity::fromArray($request->validated());
-        $registeredUser = $this->authService->register($userRequest);
+        $userRequest = UserEntity::fromArray(data: $request->validated());
+        $registeredUser = $this->authService->register(user: $userRequest);
 
-        $otp = $this->otpService->set($registeredUser->getEmail());
+        $otp = $this->otpService->set(key: $registeredUser->getEmail());
 
         UserRegistered::dispatch($registeredUser->getEmail(), $otp, $registeredUser->getFullName(), App::getLocale());
 
-        return response()->json([
-            "message" => Lang::get("messages.registered_user"),
+        return response()->json(data: [
+            "message" => Lang::get(key: "messages.registered_user"),
         ]);
     }
 }

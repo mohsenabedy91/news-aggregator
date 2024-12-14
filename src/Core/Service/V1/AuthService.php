@@ -16,9 +16,9 @@ readonly class AuthService implements AuthServiceInterface
     public function register(UserEntity $user): UserEntity
     {
         $user->setPassword(
-            Hash::make($user->getPassword()),
+            password: Hash::make(value: $user->getPassword()),
         );
 
-        return $this->userRepository->create($user);
+        return $this->userRepository->create(user: $user);
     }
 }

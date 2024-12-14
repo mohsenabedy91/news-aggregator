@@ -53,7 +53,7 @@ class RegisterRequest extends FormRequest
 {
     protected function prepareForValidation()
     {
-        return $this->merge([
+        return $this->merge(input: [
             'first_name' => ucfirst(strtolower($this->input('first_name'))),
             'last_name' => ucfirst(strtolower($this->input('last_name'))),
         ]);
@@ -69,7 +69,7 @@ class RegisterRequest extends FormRequest
                 "bail",
                 "required",
                 "confirmed",
-                Password::min(8)
+                Password::min(size: 8)
                     ->letters()
                     ->mixedCase()
                     ->numbers()

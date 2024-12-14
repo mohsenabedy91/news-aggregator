@@ -30,11 +30,11 @@ class OTPEntity
     public static function fromArray(array $data): self
     {
         $instance = new self();
-        $instance->setValue($data["value"] ?? "");
-        $instance->setUsed($data["used"] ?? false);
-        $instance->setRequestCount($data["requestCount"] ?? 0);
-        $instance->setCreatedAt($data["createdAt"]);
-        $instance->setLastRequest($data["createdAt"]);
+        $instance->setValue(value: $data["value"] ?? "");
+        $instance->setUsed(used: $data["used"] ?? false);
+        $instance->setRequestCount(requestCount: $data["requestCount"] ?? 0);
+        $instance->setCreatedAt(createdAt: $data["createdAt"]);
+        $instance->setLastRequest(lastRequest: $data["lastRequest"]);
 
         return $instance;
     }

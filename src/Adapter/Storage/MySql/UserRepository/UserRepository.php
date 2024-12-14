@@ -9,7 +9,7 @@ class UserRepository implements UserRepositoryInterface
 {
     public function create(UserEntity $user): UserEntity
     {
-        $id = DB::table("users")->insertGetId([
+        $id = DB::table(table: "users")->insertGetId(values: [
             "first_name" => $user->getFirstName(),
             "last_name" => $user->getLastName(),
             "email" => $user->getEmail(),
@@ -17,7 +17,7 @@ class UserRepository implements UserRepositoryInterface
             "created_at" => now(),
             "updated_at" => now(),
         ]);
-        $user->setId($id);
+        $user->setId(id: $id);
 
         return $user;
     }
